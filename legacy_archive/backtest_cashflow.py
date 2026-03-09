@@ -32,11 +32,18 @@ def load_data():
     # Parse Date
     df_price['Date'] = pd.to_datetime(df_price['Date'], format='%Y%m%d', errors='coerce')
     
+    # Drop NaT Dates
+    df_price = df_price.dropna(subset=['Date'])
+    
     # Parse Symbol
     df_price['symbol'] = df_price['symbol'].astype(str).str.split().str[0]
     
     # Sort
     df_price = df_price.sort_values(['Date', 'symbol']).reset_index(drop=True)
+    
+    # Drop duplicates for (Date, symbol)
+    print("Cleaning Price Data (Dropping Duplicates)...")
+    df_price = df_price.drop_duplicates(subset=['Date', 'symbol'], keep='last')
     
     print("Loading Announcement Data...")
     try:
