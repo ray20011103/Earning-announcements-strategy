@@ -172,8 +172,9 @@ def main():
         if not df_scan.empty and available > 0:
             for item in df_scan.head(available).to_dict('records'):
                 est_sell = (pd.to_datetime(target_date_str) + datetime.timedelta(days=90)).strftime('%Y/%m/%d')
-                f.write(f"  - {item['Symbol']} {item['Name']} | 收盤: {item['Price']:.2f} | YoY: {item['Revenue_YoY']}% | 預計賣出: {est_sell}\n")
-        else: f.write("  - 無符合條件股票\n")
+                f.write(f"  - {item['Symbol']} {item['Name']} | 收盤: {item['Price']:.2f} | YoY: {item['Revenue_YoY']}% | 週轉率: {item['Turnover_Score']:.2f}% | 預計賣出: {est_sell}\n")
+        else:
+            f.write("  - 無符合條件股票\n")
 
     print(f"\n報告已生成: {report_path}\n")
 
